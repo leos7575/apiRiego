@@ -31,4 +31,4 @@ def insert_user():
     user_data = request.json
     return CallMethood.insertUser(user_data)
 
-app.run(host="0.0.0.0",port=5000,debug=True,threaded=True)
+# app.run(host="0.0.0.0",port=5000,debug=True,threaded=True)
