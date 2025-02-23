@@ -70,15 +70,35 @@ def insertUser(user_data):
     
 def insertSector(sector_data):
     try:
-        # Insertar el sector en la base de datos
-        result = dbConfig.insert_one(sector_data)
-        
-        # Crear una respuesta con el ID del nuevo sector
-        objResponse = ResponseMessage.succ200.copy()
-        objResponse['Respuesta'] = {"id": str(result.inserted_id)}
+        # Verificar si se proporciona un ID
+        if '_id' in sector_data and sector_data['_id']:
+            # Convertir el ID a ObjectId si es necesario
+            sector_id = ObjectId(sector_data['_id'])
+            sector_data['_id'] = sector_id
+
+            # Actualizar el documento existente
+            result = dbConfig.update_one(
+                {'_id': sector_id},
+                {'$set': sector_data},
+                upsert=False
+            )
+            
+            # Verificar si se actualizó algún documento
+            if result.matched_count == 0:
+                objResponse = ResponseMessage['err500'].copy()
+                objResponse['message'] = 'Documento no encontrado para actualizar.'
+                return jsonify(objResponse)
+        else:
+            # Insertar un nuevo documento
+            result = dbConfig.insert_one(sector_data)
+            sector_id = result.inserted_id
+
+        # Crear una respuesta con el ID del sector
+        objResponse = ResponseMessage['succ200'].copy()
+        objResponse['Respuesta'] = {"id": str(sector_id)}
         return jsonify(objResponse)
     except Exception as e:
-        print("Error en insertUser", e)
-        objResponse = ResponseMessage.err500.copy()
+        print("Error en insertSector", e)
+        objResponse = ResponseMessage['err500'].copy()
         return jsonify(objResponse)
        

@@ -30,7 +30,7 @@ def mensajeId(id):
 def insert_user():
     user_data = request.json
     return CallMethood.insertUser(user_data)
-@app.route('/insert_sector1', methods=['POST'])
+@app.route('/insert_sector1/<id>', methods=['POST'])
 def insert_sector():
     sector_data = request.json
     return CallMethood.insertSector(sector_data)
