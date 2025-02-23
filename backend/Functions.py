@@ -68,12 +68,8 @@ def insertUser(user_data):
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
     
-def insertSector(sector_data, sector_id='67bb6f2e85118d10af317f79'):
+def insertSector(sector_data):
     try:
-        # Si se proporciona un sector_id, lo añadimos a sector_data
-        if sector_id:
-            sector_data['_id'] = sector_id
-        
         # Insertar el sector en la base de datos
         result = dbConfig.insert_one(sector_data)
         
@@ -82,8 +78,7 @@ def insertSector(sector_data, sector_id='67bb6f2e85118d10af317f79'):
         objResponse['Respuesta'] = {"id": str(result.inserted_id)}
         return jsonify(objResponse)
     except Exception as e:
-        print("Error en insertar Sector", e)
+        print("Error en insertUser", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
-
        
