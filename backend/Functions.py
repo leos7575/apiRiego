@@ -100,5 +100,6 @@ def insertSector(sector_data):
     except Exception as e:
         print("Error en insertSector", e)
         objResponse = ResponseMessage['err500'].copy()
+        objResponse['message'] = str(e)  # Incluir el mensaje de error en la respuesta
         return jsonify(objResponse)
        
