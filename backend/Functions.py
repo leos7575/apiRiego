@@ -8,6 +8,7 @@ if keys.dbconn==None:
     mongoconect=MongoClient(keys.strConnection)
     keys.dbconn=mongoconect[keys.strDBConnection]
     dbUsers=keys.dbconn['usuarios']
+    dbConfig=keys.dbconn['control_riego']
     
 def fnMensaje():
     try:
@@ -59,6 +60,20 @@ def insertUser(user_data):
         result = dbUsers.insert_one(user_data)
         
         # Crear una respuesta con el ID del nuevo usuario
+        objResponse = ResponseMessage.succ200.copy()
+        objResponse['Respuesta'] = {"id": str(result.inserted_id)}
+        return jsonify(objResponse)
+    except Exception as e:
+        print("Error en insertUser", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
+    
+def insertSector(sector_data):
+    try:
+        # Insertar el sector en la base de datos
+        result = dbConfig.insert_one(sector_data)
+        
+        # Crear una respuesta con el ID del nuevo sector
         objResponse = ResponseMessage.succ200.copy()
         objResponse['Respuesta'] = {"id": str(result.inserted_id)}
         return jsonify(objResponse)
