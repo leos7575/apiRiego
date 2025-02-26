@@ -129,6 +129,7 @@ def configRiego (id):
                     "horaInicio":objRiego.get("horaInicio"),
                     "pausas":objRiego.get("pausas"),
                     "duracionPausa":objRiego.get("duracionPausa"),
+                    "estado":objRiego.get("estado")
                 }
                 arrFinalRiego.append(objFormateado)
         objResponse=ResponseMessage.succ200.copy()
