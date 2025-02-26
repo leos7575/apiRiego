@@ -84,6 +84,7 @@ def insertSector(sector_data):
 def configSec1():
     try:
         consulta = dbConfig.find_one({"_id": ObjectId("67bb6f2e85118d10af317f79")})  # ID fijo
+        print(consulta)
         objResponse = ResponseMessage.succ200.copy()
 
         if consulta:
