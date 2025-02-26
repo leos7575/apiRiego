@@ -81,22 +81,26 @@ def insertSector(sector_data):
         print("Error en insertUser", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
-def configSec1():
+def configSec1(id):
     try:
-        consulta = dbConfig.find_one({"_id": ObjectId("67bb6f2e85118d10af317f79")})  # ID fijo
-        print(consulta)
-        objResponse = ResponseMessage.succ200.copy()
-
-        if consulta:
-            objResponse["Respuesta"] = consulta
-        else:
-            objResponse = ResponseMessage.err500.copy()# Documento no encontrado
-
+        arrFinal=[]
+        consulta=dbUsers.find({"_id":ObjectId(id)})
+        listsector=list(consulta)
+        if len(listsector)!=0:
+            for objUser in listsector:
+                objFormateado={
+                    "id":str(objUser.get("_id")),
+                    "user":objUser.get("user"),
+                    "email":objUser.get("email"),
+                    "password":objUser.get("password"),
+                }
+                arrFinal.append(objFormateado)
+        objResponse=ResponseMessage.succ200.copy()
+        objResponse['Respuesta']=arrFinal
         return jsonify(objResponse)
-
     except Exception as e:
-        print("Error en configSec1:", e)
-        objResponse = ResponseMessage.err500.copy()
+        print("Error en fnMensaje",e)
+        objResponse=ResponseMessage.err500.copy()
         return jsonify(objResponse)
 def configSec2(_id):
     try:
@@ -108,3 +112,29 @@ def configSec2(_id):
         print("Error en configSec2",e)
         objResponse=ResponseMessage.err500.copy()
         return jsonify(objResponse)    
+
+def configRiego ():
+    try:
+        arrFinalRiego=[]
+        query = dbConfig.find({})
+        arrayRiego = list(query)
+        if len(arrayRiego)!=0:
+            for objRiego in arrayRiego:
+                objFormateado={
+                    "id":str(objRiego.get("_id")),
+                    "fechaInicio":objRiego.get("fechaInicio"),
+                    "fechaFin":objRiego.get("fechaFin"),
+                    "duracion":objRiego.get("duracion"),
+                    "dias":objRiego.get("dias"),
+                    "horaInicio":objRiego.get("horaInicio"),
+                    "pausas":objRiego.get("pausas"),
+                    "duracionPausa":objRiego.get("duracionPausa"),
+                }
+                arrFinalRiego.append(objFormateado)
+        objResponse=ResponseMessage.succ200.copy()
+        objResponse['Respuesta']=arrFinalRiego
+        return jsonify(objResponse)
+    except Exception as e:
+        print("Error en fnMensaje",e)
+        objResponse=ResponseMessage.err500.copy()
+        return jsonify(objResponse)

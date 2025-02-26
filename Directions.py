@@ -38,12 +38,12 @@ def insert_sector():
 @cross_origin(allow_headers=['Content-Type'])  # Corregido Content_Type
 def find_config1():
     try:
-        objResult = CallMethood.configSec1()  # Asegúrate de que CallMethood está bien importado
+        objResult = CallMethood.configRiego()  # Asegúrate de que CallMethood está bien importado
         return objResult
     except Exception as e:
         print(f"Error en find_config1: {str(e)}")  # Mensaje más claro
         objResponse = ResponseMessage.err500.copy()
         objResponse["error"] = str(e)  # Incluir el error en la respuesta
         return jsonify(objResponse)
-
+    
 # app.run(host="0.0.0.0",port=5000,debug=True,threaded=True)
