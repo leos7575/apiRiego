@@ -46,4 +46,26 @@ def find_config1(id):
         objResponse["error"] = str(e)  # Incluir el error en la respuesta
         return jsonify(objResponse)
     
+@app.route('/estado/<id>', methods=['GET'])
+def state(id):
+    try:
+        objResult = CallMethood.obtener_estado_riego(id)
+        return objResult
+    except Exception as e:
+        print(f"Error en estado: {str(e)}")
+        objResponse = ResponseMessage.err500.copy()
+        objResponse["error"] = str(e)
+        return jsonify(objResponse)
+
+@app.route('/actualizarEstado/<id>', methods=['PUT'])
+@cross_origin(allow_headers=['Content-Type'])  # Asegura que el header Content-Type sea permitido
+def update_state(id):
+    try:
+        # Llamamos a la función para actualizar el estado
+        return CallMethood.actualizar_estado_riego(id)
+    except Exception as e:
+        # Manejo de errores
+        print(f"Error al actualizar el estado de riego: {e}")
+        return jsonify({"mensaje": "Error al actualizar el estado"}), 500
+    
 #app.run(host="0.0.0.0",port=5000,debug=True,threaded=True)

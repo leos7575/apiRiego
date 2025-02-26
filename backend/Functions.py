@@ -139,3 +139,38 @@ def configRiego (id):
         print("Error en fnMensaje",e)
         objResponse=ResponseMessage.err500.copy()
         return jsonify(objResponse)
+    
+def obtener_estado_riego(id):
+    try:
+        estado = dbConfig.find_one({"_id": ObjectId(id)})['estado']
+        objResponse = ResponseMessage.succ200.copy()
+        objResponse['Respuesta'] = {"estado": estado}
+        return jsonify(objResponse)
+    except Exception as e:
+        print("Error al obtener el estado de riego", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
+    
+def actualizar_estado_riego(id):
+    try:
+        # Cambiar el estado de riego en la base de datos
+        result = dbConfig.update_one(
+            {"_id": ObjectId(id)},  # Asegúrate de usar ObjectId para búsquedas correctas
+            {"$set": {"estado": True}}  # O cambia el estado como lo desees
+        )
+        
+        # Si la actualización fue exitosa
+        if result.modified_count > 0:
+            objResponse = ResponseMessage.succ200.copy()
+            objResponse['Respuesta'] = {"mensaje": "Estado actualizado correctamente"}
+        else:
+            objResponse = ResponseMessage.err500.copy()
+            objResponse['Respuesta'] = {"mensaje": "No se encontró el recurso para actualizar"}
+        
+        return jsonify(objResponse)
+    
+    except Exception as e:
+        print("Error al actualizar el estado de riego", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
+
