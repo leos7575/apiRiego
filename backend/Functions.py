@@ -113,10 +113,10 @@ def configSec2(_id):
         objResponse=ResponseMessage.err500.copy()
         return jsonify(objResponse)    
 
-def configRiego ():
+def configRiego (id):
     try:
         arrFinalRiego=[]
-        query = dbConfig.find({})
+        query = dbConfig.find({"_id":ObjectId(id)})
         arrayRiego = list(query)
         if len(arrayRiego)!=0:
             for objRiego in arrayRiego:

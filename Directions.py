@@ -34,7 +34,7 @@ def insert_user():
 def insert_sector():
     sector_data = request.json
     return CallMethood.insertSector(sector_data)
-@app.route('/config1', methods=['GET'])
+@app.route('/config1/<id>', methods=['GET'])
 @cross_origin(allow_headers=['Content-Type'])  # Corregido Content_Type
 def find_config1():
     try:
