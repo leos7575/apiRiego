@@ -81,4 +81,29 @@ def insertSector(sector_data):
         print("Error en insertUser", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
-       
+def configSec1():
+    try:
+        consulta = dbConfig.find_one({"_id": ObjectId("67bb6f2e85118d10af317f79")})  # ID fijo
+        objResponse = ResponseMessage.succ200.copy()
+
+        if consulta:
+            objResponse["Respuesta"] = consulta
+        else:
+            objResponse = ResponseMessage.err500.copy()# Documento no encontrado
+
+        return jsonify(objResponse)
+
+    except Exception as e:
+        print("Error en configSec1:", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
+def configSec2(_id):
+    try:
+        consulta=dbConfig.find_one({_id: ObjectId("65dbe7f4e86a5b9e34a3c8a3")})
+        objResponse=ResponseMessage.succ200.copy()
+        objResponse['Respuesta']=consulta
+        return jsonify(objResponse)
+    except Exception as e:
+        print("Error en configSec2",e)
+        objResponse=ResponseMessage.err500.copy()
+        return jsonify(objResponse)    

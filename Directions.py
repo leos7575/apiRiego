@@ -34,5 +34,9 @@ def insert_user():
 def insert_sector():
     sector_data = request.json
     return CallMethood.insertSector(sector_data)
+@app.route('/config1', methods=['GET'])
+def find_config1():
+    config_data = request.json
+    return CallMethood.configSec1(config_data)
 
 # app.run(host="0.0.0.0",port=5000,debug=True,threaded=True)
