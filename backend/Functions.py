@@ -159,7 +159,7 @@ def actualizar_estado_riego(id):
             {"$set": {"estado": True}}  # O cambia el estado como lo desees
         )
         
-        # Si la actualización fue exitosa
+        # Si la actualización fue exitosas
         if result.modified_count > 0:
             objResponse = ResponseMessage.succ200.copy()
             objResponse['Respuesta'] = {"mensaje": "Estado actualizado correctamente"}
