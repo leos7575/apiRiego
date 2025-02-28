@@ -173,4 +173,26 @@ def actualizar_estado_riego(id):
         print("Error al actualizar el estado de riego", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
+def actualizar_estado_riego_false(id):
+    try:
+        # Cambiar el estado de riego en la base de datos
+        result = dbConfig.update_one(
+            {"_id": ObjectId(id)},  # Asegúrate de usar ObjectId para búsquedas correctas
+            {"$set": {"estado": False}}  # O cambia el estado como lo desees
+        )
+        
+        # Si la actualización fue exitosas
+        if result.modified_count > 0:
+            objResponse = ResponseMessage.succ200.copy()
+            objResponse['Respuesta'] = {"mensaje": "Estado actualizado correctamente"}
+        else:
+            objResponse = ResponseMessage.err500.copy()
+            objResponse['Respuesta'] = {"mensaje": "No se encontró el recurso para actualizar"}
+        
+        return jsonify(objResponse)
+    
+    except Exception as e:
+        print("Error al actualizar el estado de riego", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
 
