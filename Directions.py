@@ -31,11 +31,12 @@ def insert_user():
     user_data = request.json
     return CallMethood.insertUser(user_data)
 @app.route('/update_sector1/<id>', methods=['PUT'])
-@cross_origin(allow_headers=['Content-Type'])  # Asegura que el header Content-Type sea permitido
+@cross_origin(allow_headers=['Content-Type'])
 def update_sector(id):
     try:
         # Obtenemos los datos del cuerpo de la solicitud (request)
         sector_data = request.json
+        print(f"Datos recibidos: {sector_data}")
         
         # Llamamos a la función para actualizar el sector con el id recibido
         return CallMethood.actualizar_sector(id, sector_data)
@@ -44,6 +45,7 @@ def update_sector(id):
         # Manejo de errores
         print(f"Error al actualizar el sector: {e}")
         return jsonify({"mensaje": "Error al actualizar el sector"}), 500
+
 
 @app.route('/config1/<id>', methods=['GET'])
 @cross_origin(allow_headers=['Content-Type'])  # Corregido Content_Type

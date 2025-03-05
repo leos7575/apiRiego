@@ -68,27 +68,23 @@ def insertUser(user_data):
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
     
-def updateSector(sector_data):
+def actualizar_sector(id, sector_data):
     try:
-        # Definir el filtro para encontrar el documento a actualizar
-        filtro = {"_id": sector_data["_id"]}  # Asegúrate de que sector_data tenga _id
-
-        # Intentar actualizar el documento; si no existe, lo inserta
-        result = dbConfig.update_one(filtro, {"$set": sector_data}, upsert=True)
-
-        # Crear una respuesta con información de la operación
-        objResponse = ResponseMessage.succ200.copy()
-        objResponse['Respuesta'] = {
-            "matched_count": result.matched_count,
-            "modified_count": result.modified_count,
-            "upserted_id": str(result.upserted_id) if result.upserted_id else None
-        }
+        # Convertir el id a ObjectId si es MongoDB
+        if not ObjectId.is_valid(id):
+            raise ValueError("El id no es válido.")
         
-        return jsonify(objResponse)
+        # Lógica para actualizar el sector con el id recibido
+        result = dbConfig.update_one({"_id": ObjectId(id)}, {"$set": sector_data})
+        
+        if result.modified_count > 0:
+            return jsonify({"mensaje": "Sector actualizado correctamente"}), 200
+        else:
+            return jsonify({"mensaje": "No se encontró el sector con ese id o no se hizo ninguna modificación."}), 404
+    
     except Exception as e:
-        print("Error en updateUser", e)
-        objResponse = ResponseMessage.err500.copy()
-        return jsonify(objResponse)
+        print(f"Error al actualizar el sector: {e}")
+        raise
 
 def configSec1(id):
     try:
