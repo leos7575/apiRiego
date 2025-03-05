@@ -30,10 +30,11 @@ def mensajeId(id):
 def insert_user():
     user_data = request.json
     return CallMethood.insertUser(user_data)
-@app.route('/insert_sector1', methods=['POST'])
-def insert_sector():
+@app.route('/update_sector/<id>', methods=['PUT'])
+def update_sector(id):
     sector_data = request.json
-    return CallMethood.insertSector(sector_data)
+    return CallMethood.updateSector(id, sector_data)
+
 @app.route('/config1/<id>', methods=['GET'])
 @cross_origin(allow_headers=['Content-Type'])  # Corregido Content_Type
 def find_config1(id):

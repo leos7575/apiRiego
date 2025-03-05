@@ -68,19 +68,28 @@ def insertUser(user_data):
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
     
-def insertSector(sector_data):
+def updateSector(sector_data):
     try:
-        # Insertar el sector en la base de datos
-        result = dbConfig.insert_one(sector_data)
-        
-        # Crear una respuesta con el ID del nuevo sector
+        # Definir el filtro para encontrar el documento a actualizar
+        filtro = {"_id": sector_data["_id"]}  # Asegúrate de que sector_data tenga _id
+
+        # Intentar actualizar el documento; si no existe, lo inserta
+        result = dbConfig.update_one(filtro, {"$set": sector_data}, upsert=True)
+
+        # Crear una respuesta con información de la operación
         objResponse = ResponseMessage.succ200.copy()
-        objResponse['Respuesta'] = {"id": str(result.inserted_id)}
+        objResponse['Respuesta'] = {
+            "matched_count": result.matched_count,
+            "modified_count": result.modified_count,
+            "upserted_id": str(result.upserted_id) if result.upserted_id else None
+        }
+        
         return jsonify(objResponse)
     except Exception as e:
-        print("Error en insertUser", e)
+        print("Error en updateUser", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
+
 def configSec1(id):
     try:
         arrFinal=[]
