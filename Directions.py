@@ -106,6 +106,16 @@ def update_state(id):
         # Manejo de errores
         print(f"Error al actualizar el estado de riego: {e}")
         return jsonify({"mensaje": "Error al actualizar el estado"}), 500
+@app.route('/actualizarEstadoValvula/<id>', methods=['PUT'])
+@cross_origin(allow_headers=['Content-Type'])  # Asegura que el header Content-Type sea permitido
+def update_state(id):
+    try:
+        # Llamamos a la función para actualizar el estado
+        return CallMethood.actualizar_estado_valvula(id)
+    except Exception as e:
+        # Manejo de errores
+        print(f"Error al actualizar el estado de riego: {e}")
+        return jsonify({"mensaje": "Error al actualizar el estado"}), 500
 @app.route('/actualizarEstadoFalse/<id>', methods=['PUT'])
 @cross_origin(allow_headers=['Content-Type'])  # Asegura que el header Content-Type sea permitido
 def update_state_false(id):
