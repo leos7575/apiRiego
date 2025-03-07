@@ -85,6 +85,23 @@ def actualizar_sector(id, sector_data):
     except Exception as e:
         print(f"Error al actualizar el sector: {e}")
         raise
+# def actualizar_sector2(id, sector_data2):
+#     try:
+#         # Convertir el id a ObjectId si es MongoDB
+#         if not ObjectId.is_valid(id):
+#             raise ValueError("El id no es válido.")
+        
+#         # Lógica para actualizar el sector con el id recibido
+#         result = dbConfig.update_one({"_id": ObjectId(id)}, {"$set": sector_data2})
+        
+#         if result.modified_count > 0:
+#             return jsonify({"mensaje": "Sector actualizado correctamente"}), 200
+#         else:
+#             return jsonify({"mensaje": "No se encontró el sector con ese id o no se hizo ninguna modificación."}), 404
+    
+#     except Exception as e:
+#         print(f"Error al actualizar el sector: {e}")
+#         raise
 
 def configSec1(id):
     try:
@@ -153,6 +170,16 @@ def obtener_estado_riego(id):
         return jsonify(objResponse)
     except Exception as e:
         print("Error al obtener el estado de riego", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
+def obtener_estado_valvula(id):
+    try:
+        estado = dbConfig.find_one({"_id": ObjectId(id)})['estadoValvula']
+        objResponse = ResponseMessage.succ200.copy()
+        objResponse['Respuesta'] = {"estadoValvula": estado}
+        return jsonify(objResponse)
+    except Exception as e:
+        print("Error al obtener el estado de valvula", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
     

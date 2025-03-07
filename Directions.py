@@ -45,6 +45,22 @@ def update_sector(id):
         # Manejo de errores
         print(f"Error al actualizar el sector: {e}")
         return jsonify({"mensaje": "Error al actualizar el sector"}), 500
+    
+# @app.route('/update_sector2/<id>', methods=['PUT'])
+# @cross_origin(allow_headers=['Content-Type'])
+# def update_sector(id):
+#     try:
+#         # Obtenemos los datos del cuerpo de la solicitud (request)
+#         sector_data2 = request.json
+#         print(f"Datos recibidos: {sector_data2}")
+        
+#         # Llamamos a la función para actualizar el sector con el id recibido
+#         return CallMethood.actualizar_sector(id, sector_data2)
+    
+#     except Exception as e:
+#         # Manejo de errores
+#         print(f"Error al actualizar el sector: {e}")
+#         return jsonify({"mensaje": "Error al actualizar el sector"}), 500
 
 
 @app.route('/config1/<id>', methods=['GET'])
@@ -63,6 +79,16 @@ def find_config1(id):
 def state(id):
     try:
         objResult = CallMethood.obtener_estado_riego(id)
+        return objResult
+    except Exception as e:
+        print(f"Error en estado: {str(e)}")
+        objResponse = ResponseMessage.err500.copy()
+        objResponse["error"] = str(e)
+        return jsonify(objResponse)
+@app.route('/estadoValvula/<id>', methods=['GET'])
+def state(id):
+    try:
+        objResult = CallMethood.obtener_estado_valvula(id)
         return objResult
     except Exception as e:
         print(f"Error en estado: {str(e)}")
