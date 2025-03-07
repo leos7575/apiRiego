@@ -86,7 +86,7 @@ def state(id):
         objResponse["error"] = str(e)
         return jsonify(objResponse)
 @app.route('/estadoValvula/<id>', methods=['GET'])
-def state(id):
+def stateValvula(id):
     try:
         objResult = CallMethood.obtener_estado_valvula(id)
         return objResult
@@ -108,7 +108,7 @@ def update_state(id):
         return jsonify({"mensaje": "Error al actualizar el estado"}), 500
 @app.route('/actualizarEstadoValvula/<id>', methods=['PUT'])
 @cross_origin(allow_headers=['Content-Type'])  # Asegura que el header Content-Type sea permitido
-def update_state(id):
+def update_state_valvula(id):
     try:
         # Llamamos a la función para actualizar el estado
         return CallMethood.actualizar_estado_valvula(id)
