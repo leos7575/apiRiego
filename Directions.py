@@ -128,3 +128,4 @@ def update_state_false(id):
         return jsonify({"mensaje": "Error al actualizar el estado"}), 500
     
 #app.run(host="0.0.0.0",port=5000,debug=True,threaded=True)
+#2

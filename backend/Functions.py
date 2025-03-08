@@ -249,4 +249,5 @@ def actualizar_estado_riego_false(id):
         print("Error al actualizar el estado de riego", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
+    #1
 
