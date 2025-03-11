@@ -276,4 +276,31 @@ def restar_pausa(id):
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
     
+# Actualizar duracionPausa a 0
+def actualizar_duracion_pausa(id):
+    try:
+        # Actualizar la columna 'duracionPausa' a 0 en la base de datos
+        result = dbConfig.update_one(
+            {"_id": ObjectId(id)},  # Asegúrate de usar ObjectId para búsquedas correctas
+            {
+                "$set": {"duracionPausa": 0}  # Establecer 'duracionPausa' a 0
+            }
+        )
+        
+        # Verificar si la actualización fue exitosa
+        if result.modified_count > 0:
+            objResponse = ResponseMessage.succ200.copy()
+            objResponse['Respuesta'] = {"mensaje": "Duración de la pausa actualizada a 0 correctamente"}
+        else:
+            objResponse = ResponseMessage.err500.copy()
+            objResponse['Respuesta'] = {"mensaje": "No se encontró el recurso para actualizar la duración de la pausa"}
+        
+        return jsonify(objResponse)
+    
+    except Exception as e:
+        print("Error al actualizar la duración de la pausa", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
+
+    
 

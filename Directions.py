@@ -140,5 +140,17 @@ def restar_pausa_ruta(id):
         return jsonify({"mensaje": "Error al restar la pausa"}), 500
 
     
+@app.route('/duracionPausa/<id>', methods=['PUT'])
+@cross_origin(allow_headers=['Content-Type'])  # Permite el encabezado Content-Type
+def restar_pausa_ruta(id):
+    try:
+        # Llamamos a la función para restar la pausa
+        return CallMethood.actualizar_duracion_pausa(id)
+    except Exception as e:
+        # Manejo de errores
+        print(f"Error al restar la pausa: {e}")
+        return jsonify({"mensaje": "Error al restar la pausa"}), 500
+
+    
 #app.run(host="0.0.0.0",port=5000,debug=True,threaded=True)
 #2
