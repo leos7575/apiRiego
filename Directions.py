@@ -142,7 +142,7 @@ def restar_pausa_ruta(id):
     
 @app.route('/duracionPausa/<id>', methods=['PUT'])
 @cross_origin(allow_headers=['Content-Type'])  # Permite el encabezado Content-Type
-def restar_pausa_ruta(id):
+def actualizar_duracionpausa_ruta(id):
     try:
         # Llamamos a la función para restar la pausa
         return CallMethood.actualizar_duracion_pausa(id)
