@@ -249,5 +249,31 @@ def actualizar_estado_riego_false(id):
         print("Error al actualizar el estado de riego", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
-    #1
+    
+#Restar pausa
+def restar_pausa(id):
+    try:
+        # Solo restar 1 a la columna 'pausas' en la base de datos
+        result = dbConfig.update_one(
+            {"_id": ObjectId(id)},  # Asegúrate de usar ObjectId para búsquedas correctas
+            {
+                "$inc": {"pausas": -1}  # Resta 1 a la columna 'pausas'
+            }
+        )
+        
+        # Verificar si la actualización fue exitosa
+        if result.modified_count > 0:
+            objResponse = ResponseMessage.succ200.copy()
+            objResponse['Respuesta'] = {"mensaje": "Pausa restada correctamente"}
+        else:
+            objResponse = ResponseMessage.err500.copy()
+            objResponse['Respuesta'] = {"mensaje": "No se encontró el recurso para restar la pausa"}
+        
+        return jsonify(objResponse)
+    
+    except Exception as e:
+        print("Error al restar la pausa", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
+    
 
