@@ -3,12 +3,14 @@ from pymongo import MongoClient
 from bson import ObjectId
 import backend.GlobalInfo.Keys as keys
 import backend.GlobalInfo.ResponseMessages as ResponseMessage
+import datetime
 
 if keys.dbconn==None:
     mongoconect=MongoClient(keys.strConnection)
     keys.dbconn=mongoconect[keys.strDBConnection]
     dbUsers=keys.dbconn['usuarios']
     dbConfig=keys.dbconn['control_riego']
+    dbHistorial=keys.dbconn['historial_riego']
     
 def fnMensaje():
     try:
@@ -74,17 +76,26 @@ def actualizar_sector(id, sector_data):
         if not ObjectId.is_valid(id):
             raise ValueError("El id no es válido.")
         
-        # Lógica para actualizar el sector con el id recibido
+        # Lógica para actualizar el sector con el id recibido en la colección de sectores
         result = dbConfig.update_one({"_id": ObjectId(id)}, {"$set": sector_data})
         
         if result.modified_count > 0:
-            return jsonify({"mensaje": "Sector actualizado correctamente"}), 200
+            # Si la actualización en la colección de sectores fue exitosa, también actualizamos la colección secundaria
+            # En este ejemplo, estamos insertando el historial de actualizaciones con la misma información
+            sector_data["sector_id"] = id  # Añadimos el id del sector actualizado
+            sector_data["accion"] = "Actualización del sector"
+            sector_data["fecha_actualizacion"] = datetime.datetime.utcnow()
+            
+            # Insertamos el historial en la colección "historial"
+            dbHistorial.insert_one(sector_data)
+
+            return jsonify({"mensaje": "Sector actualizado correctamente y registrado en el historial."}), 200
         else:
             return jsonify({"mensaje": "No se encontró el sector con ese id o no se hizo ninguna modificación."}), 404
     
     except Exception as e:
         print(f"Error al actualizar el sector: {e}")
-        raise
+        return jsonify({"mensaje": f"Error: {e}"}), 500
 # def actualizar_sector2(id, sector_data2):
 #     try:
 #         # Convertir el id a ObjectId si es MongoDB
