@@ -330,6 +330,14 @@ def obtener_historial_riego():
                     "sector_id": registro.get("sector_id"),
                     "accion": registro.get("accion"),
                     "fecha_actualizacion": registro.get("fecha_actualizacion").strftime("%Y-%m-%d %H:%M:%S"),  # Formato de fecha
+                    "fechaInicio": registro.get("fechaInicio"),
+                    "fechaFin": registro.get("fechaFin"),
+                    "duracion": registro.get("duracion"),
+                    "dias": registro.get("dias"),
+                    "horaInicio": registro.get("horaInicio"),
+                    "pausas": registro.get("pausas"),
+                    "duracionPausa": registro.get("duracionPausa"),
+                    "estado": registro.get("estado"),
                 }
                 arrFinal.append(objFormateado)
 
@@ -348,6 +356,5 @@ def obtener_historial_riego():
         print("Error al obtener el historial de riego:", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
-
     
 
