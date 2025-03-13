@@ -17,6 +17,16 @@ def mensaje():
         print("Error en mensaje", e)
         return jsonify(ResponseMessage.err500)
     
+@app.route("/historial", methods= ['GET'])
+@cross_origin(allow_headers=['Content_Type'])
+def historial():
+    try:
+        objResult=CallMethood.obtener_historial_riego()
+        return objResult
+    except Exception as e:
+        print("Error en mensaje", e)
+        return jsonify(ResponseMessage.err500)
+    
 @app.route("/mensaje/<id>", methods= ['GET'])
 @cross_origin(allow_headers=['Content_Type'])
 def mensajeId(id):

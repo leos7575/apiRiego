@@ -312,6 +312,42 @@ def actualizar_duracion_pausa(id):
         print("Error al actualizar la duración de la pausa", e)
         objResponse = ResponseMessage.err500.copy()
         return jsonify(objResponse)
+def obtener_historial_riego():
+    try:
+        # Realizar la consulta a la colección 'historial_riego'
+        historial = dbHistorial.find({})  # Busca todos los documentos en la colección
+
+        # Convertir los resultados a una lista
+        historial_list = list(historial)
+
+        # Si la lista no está vacía, formateamos los datos
+        if len(historial_list) != 0:
+            arrFinal = []
+            for registro in historial_list:
+                # Formatear cada registro para devolverlo con un formato adecuado
+                objFormateado = {
+                    "id": str(registro.get("_id")),
+                    "sector_id": registro.get("sector_id"),
+                    "accion": registro.get("accion"),
+                    "fecha_actualizacion": registro.get("fecha_actualizacion").strftime("%Y-%m-%d %H:%M:%S"),  # Formato de fecha
+                }
+                arrFinal.append(objFormateado)
+
+            # Preparar la respuesta
+            objResponse = ResponseMessage.succ200.copy()
+            objResponse['Respuesta'] = arrFinal
+            return jsonify(objResponse)
+
+        else:
+            # Si no se encontraron registros, respondemos con un mensaje adecuado
+            objResponse = ResponseMessage.succ200.copy()
+            objResponse['Respuesta'] = "No se encontraron registros en el historial."
+            return jsonify(objResponse)
+
+    except Exception as e:
+        print("Error al obtener el historial de riego:", e)
+        objResponse = ResponseMessage.err500.copy()
+        return jsonify(objResponse)
 
     
 
