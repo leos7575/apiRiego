@@ -363,7 +363,7 @@ def actualizar_duracion_pausa_his(id):
         result = dbConfig.update_one(
             {"_id": ObjectId(id)},
             {
-                "$inc": {"duracionPausa": "$duracionPausaHis"}  # Sumar duracionPausaHis a duracionPausa
+                "$set": {"duracionPausa": "$duracionPausaHis"}  # Sumar duracionPausaHis a duracionPausa
             }
         )
 
@@ -389,7 +389,7 @@ def actualizar_pausa_his(id):
         result = dbConfig.update_one(
             {"_id": ObjectId(id)},
             {
-                "$inc": {"pausas": "$pausasHis"}  # Sumar duracionPausaHis a duracionPausa
+                "$set": {"pausas": "$pausasHis"}  # Sumar duracionPausaHis a duracionPausa
             }
         )
 
@@ -406,5 +406,5 @@ def actualizar_pausa_his(id):
     except Exception as e:
         print("Error al actualizar  la pausa:", e)
         objResponse = ResponseMessage.err500.copy()
-        objResponse['Respuesta'] = {"mensaje": "Error interno al actualizar la duración de la pausa"}
+        objResponse['Respuesta'] = {"mensaje": "Error interno al actualizar la pausa"}
         return jsonify(objResponse)
