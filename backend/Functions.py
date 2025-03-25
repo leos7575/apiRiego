@@ -359,28 +359,34 @@ def obtener_historial_riego():
     
 def actualizar_duracion_pausa_his(id):
     try:
-        # Actualizar sumando duracionPausaHis a duracionPausa
+        # Obtener el valor actual de pausasHis
+        documento = dbConfig.find_one({"_id": ObjectId(id)}, {"duracionPausaHis": 1})
+
+        if documento and "duracionPausaHis" in documento:
+            nuevo_valor = documento["duracionPausaHis"]  # Tomamos el valor de pausasHis
+        else:
+            nuevo_valor = 0  # Si no existe pausasHis, ponemos 0
+
+        # Reemplazar el valor de pausas con pausasHis
         result = dbConfig.update_one(
             {"_id": ObjectId(id)},
-            {
-                "$set": {"duracionPausa": "$duracionPausaHis"}  # Sumar duracionPausaHis a duracionPausa
-            }
+            {"$set": {"duracionPausas": nuevo_valor}}  # Reemplaza pausas con pausasHis
         )
 
         # Verificar si la actualización fue exitosa
         if result.modified_count > 0:
             objResponse = ResponseMessage.succ200.copy()
-            objResponse['Respuesta'] = {"mensaje": "Duración de la pausa actualizada correctamente"}
+            objResponse['Respuesta'] = {"mensaje": "pausa actualizada correctamente"}
         else:
             objResponse = ResponseMessage.err500.copy()
-            objResponse['Respuesta'] = {"mensaje": "No se encontró el recurso para actualizar la duración de la pausa"}
+            objResponse['Respuesta'] = {"mensaje": "No se encontró el recurso para actualizar la pausa"}
 
         return jsonify(objResponse)
 
     except Exception as e:
-        print("Error al actualizar la duración de la pausa:", e)
+        print("Error al actualizar la pausa:", e)
         objResponse = ResponseMessage.err500.copy()
-        objResponse['Respuesta'] = {"mensaje": "Error interno al actualizar la duración de la pausa"}
+        objResponse['Respuesta'] = {"mensaje": "Error interno al actualizar la pausa"}
         return jsonify(objResponse)
 
 def actualizar_pausa_his(id):
