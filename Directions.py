@@ -160,6 +160,28 @@ def actualizar_duracionpausa_ruta(id):
         # Manejo de errores
         print(f"Error al restar la pausa: {e}")
         return jsonify({"mensaje": "Error al restar la pausa"}), 500
+    
+@app.route('/duracionPausaHis/<id>', methods=['PUT'])
+@cross_origin(allow_headers=['Content-Type'])  # Permite el encabezado Content-Type
+def actualizar_duracionpausaHis_ruta(id):
+    try:
+        # Llamamos a la función para restar la pausa
+        return CallMethood.actualizar_duracion_pausa_his(id)
+    except Exception as e:
+        # Manejo de errores
+        print(f"Error al agregar la Duracionpausa: {e}")
+        return jsonify({"mensaje": "Error al restar la pausa"}), 500
+    
+@app.route('/pausasHis/<id>', methods=['PUT'])
+@cross_origin(allow_headers=['Content-Type'])  # Permite el encabezado Content-Type
+def actualizar_pausaHis_ruta(id):
+    try:
+        # Llamamos a la función para restar la pausa
+        return CallMethood.actualizar_pausa_his(id)
+    except Exception as e:
+        # Manejo de errores
+        print(f"Error al agregar la pausa: {e}")
+        return jsonify({"mensaje": "Error al restar la pausa"}), 500
 
     
 #app.run(host="0.0.0.0",port=5000,debug=True,threaded=True)
