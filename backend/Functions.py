@@ -370,7 +370,7 @@ def actualizar_duracion_pausa_his(id):
         # Reemplazar el valor de pausas con pausasHis
         result = dbConfig.update_one(
             {"_id": ObjectId(id)},
-            {"$set": {"duracionPausas": nuevo_valor}}  # Reemplaza pausas con pausasHis
+            {"$set": {"duracionPausa": nuevo_valor}}  # Reemplaza pausas con pausasHis
         )
 
         # Verificar si la actualización fue exitosa
